@@ -1,0 +1,18 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Approve: {{ submission.title }}</h1>
+<embed
+  src="{{ submission.document.url }}"
+  width="100%"
+  height="400px"
+  type="application/pdf"
+/>
+<form method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit" class="btn btn-success">Submit</button>
+</form>
+<a
+  href="{% url 'GradifyPortal:coordinator_dashboard' coordinator.coordinator_id %}"
+  class="btn btn-secondary mt-2"
+  >Back</a
+>
+{% endblock %}

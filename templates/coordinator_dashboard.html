@@ -1,0 +1,101 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Welcome, {{ coordinator.name }}</h1>
+
+<h3>Pending Approvals</h3>
+<div class="row">
+  {% for submission in pending_approvals %}
+  <div class="col-md-4 mb-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ submission.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">
+          Team: {{ submission.team }}
+        </h6>
+        <h6 class="card-subtitle mb-2 text-muted">
+          Mentor: {{ submission.team.mentor.name }}
+        </h6>
+        <p class="card-text">Status: {{ submission.get_status_display }}</p>
+        <a
+          href="{{ submission.document.url }}"
+          target="_blank"
+          class="btn btn-sm btn-outline-secondary"
+          >View Document</a
+        >
+        <a
+          href="{% url 'GradifyPortal:coordinator_approve_submission' coordinator.coordinator_id submission.submission_id %}"
+          class="btn btn-warning btn-sm"
+          >Approve/Reject</a
+        >
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="col-12">
+    <p>No pending approvals</p>
+  </div>
+  {% endfor %}
+</div>
+
+<h3>Submissions to Evaluate</h3>
+<div class="row">
+  {% for submission in submissions_to_evaluate %}
+  <div class="col-md-4 mb-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ submission.title }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">
+          Team: {{ submission.team }}
+        </h6>
+        <h6 class="card-subtitle mb-2 text-muted">
+          Mentor: {{ submission.team.mentor.name }}
+        </h6>
+        <p class="card-text">Status: {{ submission.get_status_display }}</p>
+        <a
+          href="{{ submission.document.url }}"
+          target="_blank"
+          class="btn btn-sm btn-outline-secondary"
+          >View Document</a
+        >
+        <a
+          href="{% url 'GradifyPortal:coordinator_evaluate_submission' coordinator.coordinator_id submission.submission_id %}"
+          class="btn btn-warning btn-sm"
+          >Evaluate</a
+        >
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <div class="col-12">
+    <p>No submissions to evaluate</p>
+  </div>
+  {% endfor %}
+</div>
+
+<h3>Completed Evaluations</h3>
+<table class="table">
+  <tr>
+    <th>Submission</th>
+    <th>Document</th>
+    <th>Score</th>
+  </tr>
+  {% for eval in completed_evaluations %}
+  <tr>
+    <td>{{ eval.submission.title }}</td>
+    <td>
+      <a href="{{ eval.submission.document.url }}" target="_blank">View PDF</a>
+    </td>
+    <td>{{ eval.total_score }}</td>
+  </tr>
+  {% empty %}
+  <tr>
+    <td colspan="3">No evaluations completed</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<a
+  href="{% url 'GradifyPortal:coordinator_announcement' coordinator.coordinator_id %}"
+  class="btn btn-success mt-2"
+  >Post Announcement</a
+>
+{% endblock %}

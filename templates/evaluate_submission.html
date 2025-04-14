@@ -1,0 +1,31 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Evaluate: {{ submission.title }}</h1>
+<p><strong>Submitted by:</strong> {{ submission.team }}</p>
+<embed
+  src="{{ submission.document.url }}"
+  width="100%"
+  height="400px"
+  type="application/pdf"
+/>
+<form method="post" class="mt-3">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit" class="btn btn-success">Submit Evaluation</button>
+</form>
+
+{% if request.session.user_type == 'mentor' %}
+<a
+  href="{% url 'GradifyPortal:mentor_dashboard' request.session.user_id %}"
+  class="btn btn-secondary mt-2"
+  >Back</a
+>
+{% elif request.session.user_type == 'coordinator' %}
+<a
+  href="{% url 'GradifyPortal:coordinator_dashboard' request.session.user_id %}"
+  class="btn btn-secondary mt-2"
+  >Back</a
+>
+{% else %}
+<a href="{% url 'GradifyPortal:login' %}" class="btn btn-secondary mt-2"
+  >Back to Login</a
+>
+{% endif %} {% endblock %}

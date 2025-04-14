@@ -1,0 +1,59 @@
+{% extends 'base.html' %} {% block content %}
+<div class="container mt-4">
+  <h1>Reports & Logs</h1>
+  <div class="row">
+    <div class="col-md-6">
+      <h3>Submission Statistics</h3>
+      <ul class="list-group">
+        <li class="list-group-item">
+          Total Submissions: {{ stats.total_submissions }}
+        </li>
+        <li class="list-group-item">Pending: {{ stats.pending }}</li>
+        <li class="list-group-item">Under Review: {{ stats.under_review }}</li>
+        <li class="list-group-item">
+          Mentor Approved: {{ stats.mentor_approved }}
+        </li>
+        <li class="list-group-item">
+          Mentor Rejected: {{ stats.mentor_rejected }}
+        </li>
+        <li class="list-group-item">
+          Coordinator Approved: {{ stats.coordinator_approved }}
+        </li>
+        <li class="list-group-item">
+          Coordinator Rejected: {{ stats.coordinator_rejected }}
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-6">
+      <h3>All Submissions</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Status</th>
+            <th>Team</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for submission in all_submissions %}
+          <tr>
+            <td>{{ submission.title }}</td>
+            <td>{{ submission.get_status_display }}</td>
+            <td>{{ submission.team_id }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="3">No submissions yet.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <a
+    href="{% url 'coordinator_dashboard' coordinator.coordinator_id %}"
+    class="btn btn-secondary mt-3"
+    >Back to Dashboard</a
+  >
+</div>
+{% endblock %}

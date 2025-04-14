@@ -1,0 +1,24 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Chat with Mentor</h1>
+<div class="card" style="max-height: 300px; overflow-y: auto">
+  <div class="card-body">
+    {% for message in messages %}
+    <p>
+      {{ message.sender_student|default:message.sender_mentor }}: {{
+      message.message }}
+    </p>
+    {% empty %}
+    <p>No messages</p>
+    {% endfor %}
+  </div>
+</div>
+<form method="post" class="mt-3">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit" class="btn btn-secondary mt-2">Send</button>
+</form>
+<a
+  href="{% url 'GradifyPortal:student_dashboard' student.student_id %}"
+  class="btn btn-secondary mt-2"
+  >Back</a
+>
+{% endblock %}

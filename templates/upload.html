@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Upload File</title>
+  </head>
+  <body>
+    <h1>Upload a File</h1>
+
+    <!-- Display form errors (if any) -->
+    {% if form.errors %}
+    <div style="color: red">
+      <strong>Error:</strong> Please correct the following issues:
+      <ul>
+        {% for field, errors in form.errors.items %} {% for error in errors %}
+        <li>{{ field }}: {{ error }}</li>
+        {% endfor %} {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    <!-- File upload form -->
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <!-- CSRF token for security -->
+
+      <!-- Render form fields -->
+      <div>
+        <label for="id_title">Title:</label>
+        {{ form.title }}
+        <!-- Renders the title input field -->
+      </div>
+      <div>
+        <label for="id_file">File:</label>
+        {{ form.file }}
+        <!-- Renders the file input field -->
+      </div>
+
+      <button type="submit">Upload</button>
+    </form>
+
+    <!-- Display uploaded files (optional) -->
+    <h2>Uploaded Files</h2>
+    <ul>
+      {% for file in files %}
+      <li>
+        <a href="{{ file.file.url }}">{{ file.title }}</a>
+        <!-- Link to the uploaded file -->
+      </li>
+      {% empty %}
+      <li>No files uploaded yet.</li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

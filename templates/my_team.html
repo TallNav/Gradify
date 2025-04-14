@@ -1,0 +1,378 @@
+{% extends 'base.html' %} {% block content %}
+<style>
+  .team-card {
+    transition: transform 0.2s;
+  }
+  .team-card:hover {
+    transform: scale(1.05);
+  }
+  .badge-student {
+    background-color: #28a745;
+  }
+  .badge-mentor {
+    background-color: #007bff;
+  }
+  .badge-coordinator {
+    background-color: #f0ad4e;
+  }
+</style>
+
+<h1 class="text-center mb-4">My Team</h1>
+
+{% if error %}
+<div class="alert alert-warning text-center">{{ error }}</div>
+{% else %} {% if role == 'student' %}
+<h3>Your Team: {{ team.team_id }}</h3>
+<div class="row">
+  <!-- Your Own Card -->
+  <div class="col-md-4 mb-3">
+    <div class="card team-card">
+      <div class="card-body">
+        <h5 class="card-title">
+          {{ current_student.name }}
+          <span class="badge badge-student">Student</span>
+        </h5>
+        <p class="card-text">ID: {{ current_student.student_id }}</p>
+        <p class="card-text">Team: {{ team.team_id }}</p>
+        <button
+          class="btn btn-secondary"
+          data-bs-toggle="modal"
+          data-bs-target="#contactModal-{{ current_student.student_id }}"
+        >
+          Contact Info
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Your Modal -->
+  <div
+    class="modal fade"
+    id="contactModal-{{ current_student.student_id }}"
+    tabindex="-1"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ current_student.name }}</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>ID:</strong> {{ current_student.student_id }}</p>
+          <p><strong>Email:</strong> {{ current_student.email }}</p>
+          <p>
+            <strong>Contact No:</strong> {{
+            current_student.contact_no|default:"555-0100" }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Teammates -->
+  {% for teammate in teammates %}
+  <div class="col-md-4 mb-3">
+    <div class="card team-card">
+      <div class="card-body">
+        <h5 class="card-title">
+          {{ teammate.name }} <span class="badge badge-student">Student</span>
+        </h5>
+        <p class="card-text">ID: {{ teammate.student_id }}</p>
+        <p class="card-text">Team: {{ team.team_id }}</p>
+        <button
+          class="btn btn-secondary"
+          data-bs-toggle="modal"
+          data-bs-target="#contactModal-{{ teammate.student_id }}"
+        >
+          Contact Info
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Modal -->
+  <div
+    class="modal fade"
+    id="contactModal-{{ teammate.student_id }}"
+    tabindex="-1"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ teammate.name }}</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>ID:</strong> {{ teammate.student_id }}</p>
+          <p><strong>Email:</strong> {{ teammate.email }}</p>
+          <p>
+            <strong>Contact No:</strong> {{
+            teammate.contact_no|default:"555-0100" }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+  <!-- Mentor Card -->
+  <div class="col-md-4 mb-3">
+    <div class="card team-card">
+      <div class="card-body">
+        <h5 class="card-title">
+          {{ mentor.name }} <span class="badge badge-mentor">Mentor</span>
+        </h5>
+        <p class="card-text">ID: {{ mentor.mentor_id }}</p>
+        <p class="card-text">Team: {{ team.team_id }}</p>
+        <button
+          class="btn btn-secondary"
+          data-bs-toggle="modal"
+          data-bs-target="#contactModal-mentor"
+        >
+          Contact Info
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Mentor Modal -->
+  <div class="modal fade" id="contactModal-mentor" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ mentor.name }}</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>ID:</strong> {{ mentor.mentor_id }}</p>
+          <p><strong>Email:</strong> {{ mentor.email }}</p>
+          <p>
+            <strong>Contact No:</strong> {{ mentor.contact_no|default:"555-0101"
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Coordinator Card -->
+  <div class="col-md-4 mb-3">
+    <div class="card team-card">
+      <div class="card-body">
+        <h5 class="card-title">
+          {{ coordinator.name }}
+          <span class="badge badge-coordinator">Coordinator</span>
+        </h5>
+        <p class="card-text">ID: {{ coordinator.coordinator_id }}</p>
+        <p class="card-text">Team: {{ team.team_id }}</p>
+        <button
+          class="btn btn-secondary"
+          data-bs-toggle="modal"
+          data-bs-target="#contactModal-coordinator"
+        >
+          Contact Info
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Coordinator Modal -->
+  <div class="modal fade" id="contactModal-coordinator" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ coordinator.name }}</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>ID:</strong> {{ coordinator.coordinator_id }}</p>
+          <p><strong>Email:</strong> {{ coordinator.email }}</p>
+          <p>
+            <strong>Contact No:</strong> {{
+            coordinator.contact_no|default:"555-0102" }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% elif role == 'mentor' %}
+<h3>Your Teams</h3>
+<div class="row">
+  {% for team in teams %}
+  <div class="col-md-4 mb-3">
+    <div class="card team-card">
+      <div class="card-body">
+        <h5 class="card-title">{{ team.team_id }}</h5>
+        <p class="card-text">Section: {{ team.section.section_id }}</p>
+        <p class="card-text">Students:</p>
+        <ul>
+          {% for student in team.student_set.all %}
+          <li>
+            {{ student.name }}
+            <button
+              class="btn btn-sm btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#contactModal-{{ student.student_id }}"
+            >
+              Contact
+            </button>
+            <!-- Student Modal -->
+            <div
+              class="modal fade"
+              id="contactModal-{{ student.student_id }}"
+              tabindex="-1"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">{{ student.name }}</h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <p><strong>ID:</strong> {{ student.student_id }}</p>
+                    <p><strong>Email:</strong> {{ student.email }}</p>
+                    <p>
+                      <strong>Contact No:</strong> {{
+                      student.contact_no|default:"555-0100" }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% elif role == 'coordinator' %}
+<h3>Your Mentors and Teams</h3>
+<div class="row">
+  {% for mentor in mentors %}
+  <div class="col-md-4 mb-3">
+    <div class="card team-card">
+      <div class="card-body">
+        <h5 class="card-title">
+          {{ mentor.name }} <span class="badge badge-mentor">Mentor</span>
+        </h5>
+        <p class="card-text">ID: {{ mentor.mentor_id }}</p>
+        <button
+          class="btn btn-primary"
+          data-bs-toggle="modal"
+          data-bs-target="#contactModal-mentor-{{ mentor.mentor_id }}"
+        >
+          Contact Info
+        </button>
+        <p class="card-text">Teams:</p>
+        <ul>
+          {% for team in mentor.team_set.all %}
+          <li>{{ team.team_id }} (Section: {{ team.section.section_id }})</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- Mentor Modal -->
+  <div
+    class="modal fade"
+    id="contactModal-mentor-{{ mentor.mentor_id }}"
+    tabindex="-1"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ mentor.name }}</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>ID:</strong> {{ mentor.mentor_id }}</p>
+          <p><strong>Email:</strong> {{ mentor.email }}</p>
+          <p>
+            <strong>Contact No:</strong> {{ mentor.contact_no|default:"555-0101"
+            }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<h3>All Teams</h3>
+<div class="row">
+  {% for team in teams %}
+  <div class="col-md-4 mb-3">
+    <div class="card team-card">
+      <div class="card-body">
+        <h5 class="card-title">{{ team.team_id }}</h5>
+        <p class="card-text">Mentor: {{ team.mentor.name }}</p>
+        <p class="card-text">Section: {{ team.section.section_id }}</p>
+        <p class="card-text">Students:</p>
+        <ul>
+          {% for student in team.student_set.all %}
+          <li>
+            {{ student.name }}
+            <button
+              class="btn btn-sm btn-primary"
+              data-bs-toggle="modal"
+              data-bs-target="#contactModal-{{ student.student_id }}"
+            >
+              Contact
+            </button>
+            <!-- Student Modal -->
+            <div
+              class="modal fade"
+              id="contactModal-{{ student.student_id }}"
+              tabindex="-1"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">{{ student.name }}</h5>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                    ></button>
+                  </div>
+                  <div class="modal-body">
+                    <p><strong>ID:</strong> {{ student.student_id }}</p>
+                    <p><strong>Email:</strong> {{ student.email }}</p>
+                    <p>
+                      <strong>Contact No:</strong> {{
+                      student.contact_no|default:"555-0100" }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %} {% endif %} {% endblock %}

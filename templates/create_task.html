@@ -1,0 +1,19 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Create Task</h1>
+<form method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit" class="btn btn-success">Create Task</button>
+</form>
+{% if request.user.mentor %}
+<a
+  href="{% url 'GradifyPortal:mentor_dashboard' mentor_id=request.user.mentor.mentor_id %}"
+  class="btn btn-secondary mt-2"
+  >Back</a
+>
+{% else %}
+<a
+  href="{% url 'GradifyPortal:coordinator_dashboard' coordinator_id=request.user.coordinator.coordinator_id %}"
+  class="btn btn-secondary mt-2"
+  >Back</a
+>
+{% endif %} {% endblock %}

@@ -1,0 +1,14 @@
+<!-- Gradify\templates\coordinator_upload.html -->
+{% extends "admin/base_site.html" %} {% block content %}
+<h1>Upload Coordinators via CSV</h1>
+{% if error %}
+<p style="color: red">{{ error }}</p>
+{% endif %}
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit">Upload</button>
+</form>
+<p>CSV Format: coordinator id,name,gmailid</p>
+<p>Example: coord1,Alex Lee,alex.lee@gmail.com</p>
+<p>Password defaults to "Gradify2025".</p>
+{% endblock %}

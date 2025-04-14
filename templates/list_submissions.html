@@ -1,0 +1,37 @@
+{% extends 'base.html' %} {% block content %}
+<h1>{{ directory }}</h1>
+{% if files %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>File Name</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for file in files %}
+    <tr>
+      <td>{{ file.name }}</td>
+      <td>
+        <a href="{{ file.url }}" target="_blank" class="btn btn-primary"
+          >View PDF</a
+        >
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>No submissions available.</p>
+{% endif %}
+<a
+  href="{% url 'GradifyPortal:mentor_dashboard' 1 %}"
+  class="btn btn-secondary mt-2"
+  >Back to Mentor Dashboard</a
+>
+<a
+  href="{% url 'GradifyPortal:coordinator_dashboard' 1 %}"
+  class="btn btn-secondary mt-2"
+  >Back to Coordinator Dashboard</a
+>
+{% endblock %}

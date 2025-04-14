@@ -1,0 +1,14 @@
+<h1>Student Page</h1>
+
+<p>{{stu.name}}</p>
+<p>{{stu.team_id}}</p>
+<p>{{stu.email}}</p>
+
+{%for i in sub%}
+<p>{{i.title}}</p>
+<p>{{i.description}}</p>
+<p>{{i.submitted_at}}</p>
+{%endfor%} {%for j in announce%}
+<p>{{i.announcement_title}}</p>
+<p>{{i.announcement_description}}</p>
+{%endfor%}

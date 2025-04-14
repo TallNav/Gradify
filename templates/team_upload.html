@@ -1,0 +1,19 @@
+<!-- Gradify\templates\team_upload.html -->
+{% extends "admin/base_site.html" %} {% block content %}
+<h1>Upload Students and Teams via CSV</h1>
+{% if error %}
+<p style="color: red">{{ error }}</p>
+{% endif %}
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit">Upload</button>
+</form>
+<p>
+  CSV Format: section,batch id,name,roll no,mentor allotted,coordinator
+  allotted,gmailid
+</p>
+<p>Example: A,c23,Alice Smith,CS-A-001,mentor1,coord1,alice.smith@gmail.com</p>
+<p>
+  'section' defaults to A if invalid. Mentors/Coordinators must exist first.
+</p>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Create Announcement</h1>
+<form method="post">
+  {% csrf_token %} {{ form.as_p }}
+  <button type="submit" class="btn btn-success">Post</button>
+</form>
+<a
+  href="{% url 'GradifyPortal:mentor_dashboard' mentor.mentor_id %}"
+  class="btn btn-secondary mt-2"
+  >Back</a
+>
+{% endblock %}

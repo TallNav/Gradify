@@ -1,0 +1,141 @@
+{% extends 'base.html' %} {% block content %}
+<style>
+  :root {
+    --primary-teal: #80cbc4;
+    --light-teal: #b4ebe6;
+    --off-white: #fbf8ef;
+    --accent-yellow: #ffb433;
+    --text-dark: #333;
+  }
+  body {
+    background-color: var(--off-white);
+    color: var(--text-dark);
+  }
+  .btn-primary,
+  .btn-success {
+    background-color: var(--primary-teal);
+    border-color: var(--primary-teal);
+  }
+  .btn-primary:hover,
+  .btn-success:hover {
+    background-color: var(--light-teal);
+    border-color: var(--light-teal);
+  }
+  .btn-info {
+    background-color: var(--light-teal);
+    border-color: var(--light-teal);
+    color: var(--text-dark);
+  }
+  .btn-info:hover {
+    background-color: var(--primary-teal);
+    border-color: var(--primary-teal);
+  }
+  .btn-warning {
+    background-color: var(--accent-yellow);
+    border-color: var(--accent-yellow);
+    color: var(--text-dark);
+  }
+  .btn-warning:hover {
+    background-color: #ffcc66;
+    border-color: #ffcc66;
+  }
+  .card {
+    background-color: var(--off-white);
+    border: 1px solid var(--light-teal);
+  }
+  .table {
+    background-color: var(--off-white);
+    color: var(--text-dark);
+  }
+  .table th {
+    background-color: var(--primary-teal);
+    color: var(--off-white);
+  }
+  a {
+    color: var(--primary-teal);
+  }
+  a:hover {
+    color: var(--accent-yellow);
+  }
+</style>
+
+<h1>Welcome, {{ mentor.name }}</h1>
+
+<h3>Pending Reviews</h3>
+<div class="row">
+  {% for submission in pending_submissions %}
+  <div class="col-md-4 mb-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ submission.title }}</h5>
+        <p class="card-text">Team: {{ submission.team.team_id }}</p>
+        <p class="card-text">Status: {{ submission.get_status_display }}</p>
+        <a
+          href="{% url 'GradifyPortal:review_submission' mentor.mentor_id submission.submission_id %}"
+          class="btn btn-info"
+          >Review</a
+        >
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <p>No pending reviews</p>
+  {% endfor %}
+</div>
+
+<h3>Submissions to Evaluate</h3>
+<div class="row">
+  {% for submission in approved_submissions %}
+  <div class="col-md-4 mb-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ submission.title }}</h5>
+        <p class="card-text">Team: {{ submission.team.team_id }}</p>
+        <p class="card-text">Status: {{ submission.get_status_display }}</p>
+        <a
+          href="{% url 'GradifyPortal:evaluate_submission' mentor.mentor_id submission.submission_id %}"
+          class="btn btn-warning"
+          >Evaluate</a
+        >
+      </div>
+    </div>
+  </div>
+  {% empty %}
+  <p>No submissions to evaluate</p>
+  {% endfor %}
+</div>
+
+<h3>Completed Evaluations</h3>
+<table class="table">
+  <tr>
+    <th>Submission</th>
+    <th>Document</th>
+    <th>Score</th>
+  </tr>
+  {% for eval in evaluations %}
+  <tr>
+    <td>{{ eval.submission.title }}</td>
+    <td>
+      <a href="{{ eval.submission.document.url }}" target="_blank">View PDF</a>
+    </td>
+    <td>{{ eval.total_score }}</td>
+  </tr>
+  {% empty %}
+  <tr>
+    <td colspan="3">No evaluations completed</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<a
+  href="{% url 'GradifyPortal:mentor_chat' mentor.mentor_id %}"
+  class="btn btn-info"
+>
+  Chat {% if unread_messages %}({{ unread_messages }} unread){% endif %}
+</a>
+<a
+  href="{% url 'GradifyPortal:create_announcement' mentor.mentor_id %}"
+  class="btn btn-success mt-2"
+  >Post Announcement</a
+>
+{% endblock %}

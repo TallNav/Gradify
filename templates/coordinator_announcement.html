@@ -1,0 +1,74 @@
+{% extends 'base.html' %} {% block title %}Post Announcement - Gradify Portal
+{%endblock %} {% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <h1>Post an Announcement</h1>
+    {% if messages %}
+    <div class="alert alert-success">
+      {% for message in messages %} {{ message }} {% endfor %}
+    </div>
+    {% endif %}
+    <form method="post" class="mt-4">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="{{ form.title.id_for_label }}" class="form-label"
+          >Title</label
+        >
+        {{ form.title }}
+      </div>
+      <div class="mb-3">
+        <label for="{{ form.description.id_for_label }}" class="form-label"
+          >Description</label
+        >
+        {{ form.description }}
+      </div>
+      <button type="submit" class="btn btn-success">Post Announcement</button>
+      <a
+        href="{% url 'GradifyPortal:coordinator_dashboard' coordinator.coordinator_id %}"
+        class="btn btn-secondary ms-2"
+        >Cancel</a
+      >
+    </form>
+  </div>
+</div>
+<style>
+  .form-label {
+    color: var(--primary-teal);
+    font-weight: bold;
+  }
+
+  .form-control {
+    border: 2px solid var(--light-teal);
+    border-radius: 5px;
+  }
+
+  .form-control:focus {
+    border-color: var(--primary-teal);
+    box-shadow: 0 0 5px var(--primary-teal);
+  }
+
+  .btn-success {
+    background-color: var(--primary-teal);
+  }
+
+  .btn-success:hover {
+    background-color: var(--accent-yellow);
+    color: var(--text-dark);
+  }
+
+  .btn-secondary {
+    background-color: var(--light-teal);
+  }
+
+  .btn-secondary:hover {
+    background-color: var(--primary-teal);
+    color: var(--off-white);
+  }
+
+  .alert-success {
+    background-color: var(--light-teal);
+    color: var(--primary-teal);
+    border: none;
+  }
+</style>
+{% endblock %}
